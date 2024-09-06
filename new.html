@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Responsive Blog Card Slider </title>
+  <meta name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.5/css/swiper.min.css'>
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="blog-slider">
+  <div class="blog-slider__wrp swiper-wrapper">
+    <div class="blog-slider__item swiper-slide">
+      <div class="blog-slider__img">
+        
+        
+      </div>
+      <img id="img" src="" alt="">
+      <div class="blog-slider__content">
+        <div id="primo" class="blog-slider__title">Wait</div>
+        <div id="value" class="blog-slider__title">Loading...</div>
+        <button id="btn">0</button>
+        <button onclick="jack()">+</button>
+        <button onclick="jackf()">-</button>
+      </div>
+      
+    </div>
+    
+    
+  </div>
+  <div class="blog-slider__pagination"></div>
+</div>
+<!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.5/js/swiper.min.js'></script>
+
+</body>
+
+<style>
+
+@import url("https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600,700,800");
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  font-family: "Fira Sans", sans-serif;
+  display: flex;
+}
+
+.blog-slider {
+  width: 95%;
+  position: relative;
+  max-width: 800px;
+  margin: auto;
+  background: #fff;
+  padding: 25px;
+  border-radius: 25px;
+  height: 400px;
+}
+
+
+
+.blog-slider__content {
+  padding-right: 25px;
+}
+
+
+.blog-slider__code {
+  color: #7b7992;
+  margin-bottom: 15px;
+  display: block;
+  font-weight: 500;
+}
+.blog-slider__title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0d0925;
+  margin-bottom: 20px;
+  flex-direction: row;
+}
+.blog-slider__text {
+  color: #4e4a67;
+  margin-bottom: 30px;
+  line-height: 1.5em;
+}
+
+.blog-slider__content{
+        float: right;
+        padding: 70px 0;
+        margin-right: 150px;
+    }
+
+    button {
+      width: 100px;
+      height: 60px;
+      border: 3px solid #ff9d0a;
+      border-radius: 45px;
+      transition: all 0.3s;
+      cursor: pointer;
+      background: white;
+      font-size: 1.2em;
+      font-weight: 550;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    button:hover {
+      background: #f5840d;
+      color: white;
+      font-size: 1.5em;
+    }
+
+</style>
+
+
+<script>
+
+  async function stux(){
+
+    primo.innerHTML = 'Error!';
+
+    console.log(imag.src)
+  }
+  
+    async function main(){
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const myParam = urlParams.get('q');
+
+        const primo = document.getElementById("primo")
+        
+
+        url = "https://api.pokemontcg.io/v2/cards?q="+myParam
+
+        const response = await fetch(url)
+        const rx = await response.json();
+
+        n = 0;
+
+        value = rx['data'][n]['cardmarket']['prices']['averageSellPrice'];
+        img = rx['data'][n]['images']['small'];
+        name = rx['data'][n]['name'];
+
+        window.top.postMessage(value, '*')
+
+        primo.innerHTML = name;
+        
+        const valuge = document.getElementById("value")
+        const imag = document.getElementById("img")
+
+        valuge.innerHTML = value;
+        imag.src = img;
+
+        console.log(imag.src)
+        
+
+        let m = 0;
+        let ty = 0;
+        let aper;
+
+        let i = 0;
+
+        while (i < 1000) {
+          try {
+            aper = rx['data'][i]['images']['small'];
+            i++;
+          } catch (error) {
+            m = i-1;
+            i = 1001;
+          }
+          
+        }
+    
+
+        gotem(rx,m)
+      } catch (error) {
+        stux();
+      }
+        
+
+
+    }
+
+    function jack(){
+        var btn = document.getElementById("btn");
+        elem = document.getElementById('btn');
+        var txt = elem.textContent || elem.innerText; // will just add a hidden value
+        btn.innerHTML = 1 + parseInt(txt, 10);
+        
+    }
+
+    function jack0(){
+        var btn = document.getElementById("btn");
+        elem = document.getElementById('btn');
+        var txt = elem.textContent || elem.innerText; // will just add a hidden value
+        btn.innerHTML = 0;
+    }
+
+    function jackm(m){
+        var btn = document.getElementById("btn");
+        elem = document.getElementById('btn');
+        var txt = elem.textContent || elem.innerText; // will just add a hidden value
+        btn.innerHTML = m;
+    }
+
+    function jackf(){
+        var btn = document.getElementById("btn");
+        elem = document.getElementById('btn');
+        var txt = elem.textContent || elem.innerText; // will just add a hidden value
+        btn.innerHTML = parseInt(txt, 10) - 1;
+    }
+
+    async function gotem(rx,m) {
+
+        let i = 0;
+        let elex = -1;
+        let a = -1;
+
+        async function uptodown() {
+            i++;
+            elem = document.getElementById('btn');
+            var txt = elem.textContent || elem.innerText;
+            if (txt != elex){
+                a = txt;
+
+                ty = 0;
+
+                try {
+
+                    console.log('try2')
+                    
+                    value = rx['data'][a]['cardmarket']['prices']['averageSellPrice'];
+                    img = rx['data'][a]['images']['small'];
+
+                    const primo = document.getElementById("primo");
+
+                    name = rx['data'][a]['name'];
+
+                    primo.innerHTML = name;
+                    
+                    const valuge = document.getElementById("value")
+                    const imag = document.getElementById("img")
+
+                    valuge.innerHTML = value;
+                    imag.src = img;
+
+                    window.top.postMessage(value, '*')
+
+                    console.log('try1')
+
+                } catch (error) {
+
+                    console.log('exc')
+
+                    if (a!=-1){
+
+                    a=0;
+
+                    jack0()
+
+                    }
+
+                    if (a==-1){
+
+                    a = m;
+
+                    jackm(m)
+
+                    }
+
+                    
+                }
+
+                
+
+            }
+            elex = txt;
+        }
+
+        let jovanni = setInterval(uptodown, 100)
+
+    }
+
+    main()
+
+</script>
+
+</html>
